@@ -11,7 +11,7 @@ var clearCanvas = function(e){
     window.cancelAnimationFrame(rid);
 }
 
-stop.onclick = function() {
+var stopAnimation = function() {
     window.cancelAnimationFrame(rid);
 }
 
@@ -19,28 +19,26 @@ circle.onclick = function(){
     clear.click();
 
     var radius = 0;
-    var mode = "big";
+    var rInc = 1;  //1 is increasing, -1 is decreasing
 
     var draw = function(){
       clear.click();
       ctx.beginPath();
       ctx.arc(c.height/2, c.width/2, radius, 0, 2*Math.PI);
       ctx.fill();
-      if (mode == "big"){
-        if (radius <= 249){
-          radius ++;
-        } else {
-          radius --;
-          mode = "small";
+
+      if (rInc == 1){
+        if (radius == 250){
+          rInc = -1;
         }
       } else {
-        if (radius >= 1) {
-          radius --;
+        if (radius == 0) {
+          rInc = 1;
         } else {
-          radius ++;
-      		mode = "big";
+          rInc = -1;
         }
       }
+      radius += rInc;
       rid = window.requestAnimationFrame(draw);
     }
     draw();
@@ -73,5 +71,5 @@ dvd.onclick = function(){
   draw();
 }
 
-
+stop.addEventListener('click', stopAnimation);
 clear.addEventListener('click', clearCanvas);
